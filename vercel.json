@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/skill.md",
+      "destination": "https://api.clawswap.tech/skill.md",
+      "permanent": true
+    }
+  ]
+}
