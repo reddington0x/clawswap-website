@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClawSwap — Any-Chain Swap & Bridge for AI Agents</title>
+<meta name="description" content="Teach your AI agent to swap any token and bridge any chain. One skill file. Every chain. Zero setup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --cream:#FAF7F2;
+  --cream-dark:#F3EDE4;
+  --cream-darker:#E8DFD2;
+  --ink:#1A1714;
+  --ink-light:#3D3830;
+  --ink-lighter:#6B6259;
+  --ink-muted:#9C9389;
+  --ink-faint:#C4BCB2;
+  --teal:#0A7B6F;
+  --teal-light:#0E9E8F;
+  --teal-wash:rgba(10,123,111,0.06);
+  --teal-wash-2:rgba(10,123,111,0.12);
+  --green-ink:#1B6B42;
+  --green-wash:rgba(27,107,66,0.08);
+  --rule:rgba(26,23,20,0.08);
+  --rule-dark:rgba(26,23,20,0.14);
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --sans:'Geist',-apple-system,system-ui,sans-serif;
+  --mono:'Geist Mono','SF Mono','Consolas',monospace;
+  --wrap:1060px;
+}
+
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:var(--sans);font-weight:400;line-height:1.65;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:0.3;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+}
+
+::selection{background:var(--teal-wash-2);color:var(--teal)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 40px}
+
+/* ═══ NAV ═══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:60px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 40px;
+  background:rgba(250,247,242,0.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-wordmark{font-family:var(--serif);font-size:20px;color:var(--ink);text-decoration:none;letter-spacing:-0.01em}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:13px;color:var(--ink-lighter);text-decoration:none;letter-spacing:0.01em;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{font-size:12px;font-weight:500;letter-spacing:0.02em;padding:8px 20px;border-radius:6px;background:var(--ink);color:var(--cream);text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:var(--ink-light)}
+
+/* ═══ FLOATING LOBSTERS ═══ */
+.lobster-field{
+  position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden;
+}
+.lobster{
+  position:absolute;font-size:80px;opacity:0;
+  will-change:transform,opacity;
+  filter:drop-shadow(0 8px 24px rgba(26,23,20,0.08));
+}
+
+/* Each lobster gets a unique drift path */
+.lob-1{
+  top:12%;left:-120px;
+  animation:drift1 22s ease-in-out infinite 0s;
+}
+.lob-2{
+  top:38%;right:-120px;
+  animation:drift2 28s ease-in-out infinite 3s;
+}
+.lob-3{
+  top:62%;left:-120px;
+  animation:drift3 25s ease-in-out infinite 7s;
+}
+.lob-4{
+  top:85%;right:-120px;
+  animation:drift4 30s ease-in-out infinite 1s;
+}
+.lob-5{
+  top:5%;right:-120px;font-size:50px;
+  animation:drift5 35s ease-in-out infinite 12s;
+}
+.lob-6{
+  top:50%;left:-120px;font-size:110px;
+  animation:drift6 40s ease-in-out infinite 5s;
+}
+
+/* Drift left to right */
+@keyframes drift1{
+  0%{transform:translateX(0) translateY(0) rotate(-8deg);opacity:0}
+  5%{opacity:0.12}
+  50%{transform:translateX(calc(100vw + 200px)) translateY(-40px) rotate(12deg);opacity:0.10}
+  95%{opacity:0.12}
+  100%{transform:translateX(calc(200vw + 200px)) translateY(20px) rotate(-5deg);opacity:0}
+}
+
+/* Drift right to left */
+@keyframes drift2{
+  0%{transform:translateX(0) translateY(0) rotate(10deg) scaleX(-1);opacity:0}
+  5%{opacity:0.09}
+  50%{transform:translateX(calc(-100vw - 200px)) translateY(60px) rotate(-8deg) scaleX(-1);opacity:0.07}
+  95%{opacity:0.09}
+  100%{transform:translateX(calc(-200vw - 200px)) translateY(-30px) rotate(5deg) scaleX(-1);opacity:0}
+}
+
+@keyframes drift3{
+  0%{transform:translateX(0) translateY(0) rotate(-5deg);opacity:0}
+  8%{opacity:0.11}
+  45%{transform:translateX(calc(100vw + 200px)) translateY(50px) rotate(15deg);opacity:0.08}
+  92%{opacity:0.11}
+  100%{transform:translateX(calc(200vw + 200px)) translateY(-20px) rotate(-3deg);opacity:0}
+}
+
+@keyframes drift4{
+  0%{transform:translateX(0) translateY(0) rotate(6deg) scaleX(-1);opacity:0}
+  6%{opacity:0.08}
+  50%{transform:translateX(calc(-100vw - 200px)) translateY(-50px) rotate(-10deg) scaleX(-1);opacity:0.06}
+  94%{opacity:0.08}
+  100%{transform:translateX(calc(-200vw - 200px)) translateY(30px) rotate(4deg) scaleX(-1);opacity:0}
+}
+
+@keyframes drift5{
+  0%{transform:translateX(0) translateY(0) rotate(12deg) scaleX(-1);opacity:0}
+  4%{opacity:0.07}
+  50%{transform:translateX(calc(-100vw - 200px)) translateY(80px) rotate(-6deg) scaleX(-1);opacity:0.06}
+  96%{opacity:0.07}
+  100%{transform:translateX(calc(-200vw - 200px)) translateY(-10px) rotate(8deg) scaleX(-1);opacity:0}
+}
+
+@keyframes drift6{
+  0%{transform:translateX(0) translateY(0) rotate(-10deg);opacity:0}
+  3%{opacity:0.06}
+  50%{transform:translateX(calc(100vw + 300px)) translateY(-70px) rotate(8deg);opacity:0.05}
+  97%{opacity:0.06}
+  100%{transform:translateX(calc(200vw + 300px)) translateY(40px) rotate(-12deg);opacity:0}
+}
+
+/* Hero lobster accents — static, decorative */
+.hero{padding:160px 0 100px;text-align:center;position:relative;overflow:hidden}
+
+.hero-lobster{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) rotate(-12deg);
+  font-size:min(40vw, 360px);
+  opacity:0.04;
+  pointer-events:none;
+  z-index:0;
+  animation:heroLobSway 8s ease-in-out infinite;
+  filter:grayscale(0.3);
+}
+@keyframes heroLobSway{
+  0%,100%{transform:translate(-50%,-50%) rotate(-12deg) scale(1)}
+  50%{transform:translate(-50%,-50%) rotate(-8deg) scale(1.03)}
+}
+.hero-status{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.06em;
+  color:var(--green-ink);text-transform:uppercase;
+  padding:6px 16px 6px 12px;background:var(--green-wash);border-radius:100px;margin-bottom:44px;
+}
+.hero-status .dot{width:6px;height:6px;border-radius:50%;background:var(--green-ink);position:relative}
+.hero-status .dot::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  background:var(--green-ink);opacity:0;animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:0;transform:scale(1)}50%{opacity:.3;transform:scale(2)}}
+
+.hero h1{
+  font-family:var(--serif);font-size:clamp(48px,6.5vw,80px);
+  font-weight:400;line-height:1.05;letter-spacing:-0.025em;
+  color:var(--ink);max-width:740px;margin:0 auto 28px;
+}
+.hero h1 em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:17px;line-height:1.75;color:var(--ink-lighter);font-weight:300;max-width:480px;margin:0 auto 52px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-dark{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:8px;
+  background:var(--ink);color:var(--cream);font-size:14px;font-weight:500;
+  text-decoration:none;transition:all .25s;letter-spacing:0.005em;
+}
+.btn-dark:hover{background:var(--ink-light);transform:translateY(-1px);box-shadow:0 4px 20px rgba(26,23,20,0.15)}
+.btn-dark .arrow{opacity:.4;transition:opacity .2s}
+.btn-dark:hover .arrow{opacity:.7}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:8px;
+  background:transparent;color:var(--ink-light);border:1px solid var(--rule-dark);
+  font-size:14px;font-weight:400;text-decoration:none;transition:all .25s;
+}
+.btn-outline:hover{border-color:var(--ink-muted);color:var(--ink)}
+
+/* ═══ MOLTBOOK-STYLE PROMPT ═══ */
+.prompt-section{
+  padding:80px 0 100px;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  background:var(--cream-dark);
+}
+.prompt-center{text-align:center;margin-bottom:48px}
+.prompt-center .section-label{
+  font-family:var(--mono);font-size:10px;color:var(--teal);text-transform:uppercase;
+  letter-spacing:0.12em;margin-bottom:16px;
+}
+.prompt-center .section-title{
+  font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:400;
+  line-height:1.15;letter-spacing:-0.02em;margin-bottom:14px;
+}
+.prompt-center .section-title em{font-style:italic;color:var(--teal)}
+.prompt-center .section-desc{
+  font-size:15px;line-height:1.7;color:var(--ink-lighter);max-width:440px;margin:0 auto;font-weight:300;
+}
+
+/* The actual prompt box — Moltbook style */
+.prompt-box{
+  max-width:680px;margin:0 auto;
+  background:var(--cream);border:1px solid var(--rule-dark);border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(26,23,20,0.04),0 16px 64px rgba(26,23,20,0.06);
+}
+.prompt-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px;border-bottom:1px solid var(--rule);
+  background:rgba(250,247,242,0.6);
+}
+.prompt-topbar .label{font-family:var(--mono);font-size:11px;color:var(--ink-muted);letter-spacing:0.04em}
+.prompt-topbar .copy-btn{
+  font-family:var(--mono);font-size:11px;color:var(--teal);
+  background:var(--teal-wash);border:1px solid var(--teal-wash-2);
+  padding:5px 14px;border-radius:6px;cursor:pointer;
+  transition:all .2s;letter-spacing:0.02em;border-style:solid;
+}
+.prompt-topbar .copy-btn:hover{background:var(--teal-wash-2)}
+.prompt-body{
+  padding:28px 26px;font-family:var(--mono);font-size:13px;line-height:1.85;
+  color:var(--ink-lighter);white-space:pre-wrap;word-break:break-word;
+  user-select:all;
+}
+.prompt-body .hl{color:var(--teal);font-weight:500}
+.prompt-body .url{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--rule-dark);text-underline-offset:3px}
+
+.prompt-hint{
+  text-align:center;margin-top:20px;
+  font-size:13px;color:var(--ink-muted);font-weight:300;
+}
+.prompt-hint strong{color:var(--ink-lighter);font-weight:500}
+
+/* ═══ PROMPT TABS ═══ */
+.prompt-tabs{
+  display:flex;justify-content:center;gap:0;margin:20px auto 0;
+  max-width:240px;
+  border:1px solid var(--rule-dark);border-radius:8px;overflow:hidden;
+}
+.prompt-tabs .tab{
+  flex:1;padding:8px 0;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.03em;
+  color:var(--ink-muted);background:transparent;
+  border:none;cursor:pointer;transition:all .2s;
+}
+.prompt-tabs .tab:first-child{border-right:1px solid var(--rule-dark)}
+.prompt-tabs .tab.active{background:var(--ink);color:var(--cream)}
+.prompt-tabs .tab:not(.active):hover{background:var(--cream-darker);color:var(--ink-lighter)}
+
+.prompt-box-full{max-width:680px;margin:20px auto 0}
+
+/* ═══ CHAT DEMO ═══ */
+.chat-section{
+  padding:120px 0;
+  border-bottom:1px solid var(--rule);
+}
+.chat-layout{
+  display:grid;grid-template-columns:1fr 380px;gap:80px;align-items:center;margin-top:56px;
+}
+.chat-copy{max-width:440px}
+.chat-copy .section-label{font-family:var(--mono);font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:16px}
+.chat-copy .section-title{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:400;line-height:1.15;letter-spacing:-0.02em;margin-bottom:14px}
+.chat-copy .section-title em{font-style:italic;color:var(--teal)}
+.chat-copy .section-desc{font-size:15px;line-height:1.7;color:var(--ink-lighter);max-width:420px;font-weight:300;margin-bottom:24px}
+.chat-copy .flow-steps{list-style:none;counter-reset:flowstep}
+.chat-copy .flow-steps li{
+  counter-increment:flowstep;
+  font-size:13px;color:var(--ink-lighter);line-height:1.65;
+  padding:10px 0;border-bottom:1px solid var(--rule);
+  display:flex;gap:14px;align-items:flex-start;
+}
+.chat-copy .flow-steps li:last-child{border-bottom:none}
+.chat-copy .flow-steps li::before{
+  content:counter(flowstep);
+  font-family:var(--mono);font-size:10px;
+  color:var(--teal);background:var(--teal-wash-2);
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+
+/* Phone frame */
+.phone{
+  width:380px;
+  background:#fff;
+  border-radius:36px;
+  box-shadow:
+    0 2px 4px rgba(26,23,20,0.03),
+    0 8px 24px rgba(26,23,20,0.06),
+    0 32px 80px rgba(26,23,20,0.1),
+    inset 0 0 0 1px rgba(26,23,20,0.06);
+  overflow:hidden;position:relative;
+}
+.phone-notch{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:120px;height:28px;background:#1A1714;border-radius:20px;z-index:5;
+}
+.tg-header{
+  background:#1A1714;
+  padding:52px 20px 14px;
+  display:flex;align-items:center;gap:12px;
+}
+.tg-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal-light),var(--teal));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:#fff;font-weight:600;font-family:var(--sans);
+}
+.tg-info{display:flex;flex-direction:column}
+.tg-name{font-size:14px;font-weight:500;color:#fff;line-height:1.2}
+.tg-status-text{font-size:11px;color:rgba(255,255,255,0.45);line-height:1.2}
+
+.tg-body{
+  background:#E8E2D9;
+  padding:16px 14px 20px;
+  min-height:460px;
+  display:flex;flex-direction:column;gap:6px;
+  position:relative;overflow-y:auto;
+}
+.tg-body::before{
+  content:'';position:absolute;inset:0;
+  opacity:0.025;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0L40 20L20 40L0 20Z' fill='%231A1714'/%3E%3C/svg%3E");
+  background-size:40px 40px;
+}
+
+.tg-date{text-align:center;margin:4px 0 8px}
+.tg-date span{
+  display:inline-block;font-size:11px;color:rgba(26,23,20,0.4);
+  background:rgba(255,255,255,0.6);padding:3px 12px;border-radius:10px;font-weight:400;
+}
+
+.bubble{
+  max-width:82%;padding:8px 12px;
+  font-size:13.5px;line-height:1.55;
+  position:relative;word-wrap:break-word;
+}
+.bubble .time{font-size:10px;color:rgba(26,23,20,0.3);float:right;margin:4px 0 -2px 10px}
+.b-user{align-self:flex-end;background:#DCF0C7;border-radius:14px 14px 4px 14px;color:var(--ink)}
+.b-agent{align-self:flex-start;background:#fff;border-radius:14px 14px 14px 4px;color:var(--ink)}
+.b-agent .agent-label{font-size:10px;font-weight:600;color:var(--teal);margin-bottom:2px;display:block}
+
+.b-agent .sys-block{
+  margin-top:6px;padding:8px 10px;
+  background:rgba(10,123,111,0.05);border-radius:8px;
+  font-family:var(--mono);font-size:11px;line-height:1.6;
+  color:var(--ink-lighter);
+}
+.b-agent .sys-block .val{color:var(--teal);font-weight:500}
+.b-agent .sys-block .grn{color:var(--green-ink);font-weight:500}
+
+.typing-ind{
+  align-self:flex-start;background:#fff;
+  border-radius:14px 14px 14px 4px;padding:12px 16px;
+  display:flex;gap:4px;align-items:center;
+}
+.typing-ind i{
+  width:7px;height:7px;border-radius:50%;background:var(--ink-faint);
+  animation:typeDot 1.4s infinite;
+}
+.typing-ind i:nth-child(2){animation-delay:.2s}
+.typing-ind i:nth-child(3){animation-delay:.4s}
+@keyframes typeDot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+
+.tg-input{
+  background:#fff;padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+  border-top:1px solid rgba(26,23,20,0.06);
+}
+.tg-input-field{
+  flex:1;height:36px;border-radius:18px;
+  background:var(--cream);border:1px solid var(--rule);
+  padding:0 16px;font-size:13px;color:var(--ink-muted);
+  display:flex;align-items:center;
+}
+.tg-send{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--teal);
+  display:flex;align-items:center;justify-content:center;
+}
+.tg-send svg{width:16px;height:16px}
+
+/* bubble animation */
+.bubble,.typing-ind,.tg-date{
+  opacity:0;transform:translateY(12px) scale(0.97);
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.bubble.show,.typing-ind.show,.tg-date.show{
+  opacity:1;transform:translateY(0) scale(1);
+}
+
+/* ═══ FEATURES ═══ */
+.features-section{padding:120px 0;border-bottom:1px solid var(--rule)}
+.features-header{text-align:center;margin-bottom:64px}
+.features-header .section-label{font-family:var(--mono);font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:16px}
+.features-header .section-title{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:400;line-height:1.15;letter-spacing:-0.02em}
+.features-header .section-title em{font-style:italic;color:var(--teal)}
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:14px;overflow:hidden;
+}
+.feat-card{padding:44px 36px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);transition:background .3s}
+.feat-card:nth-child(3n){border-right:none}
+.feat-card:nth-child(n+4){border-bottom:none}
+.feat-card:hover{background:var(--cream-dark)}
+.feat-num{font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:0.08em;margin-bottom:20px}
+.feat-card h3{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:10px;letter-spacing:-0.01em}
+.feat-card p{font-size:13px;line-height:1.65;color:var(--ink-muted);font-weight:300}
+
+/* ═══ CTA ═══ */
+.cta{padding:140px 0 120px;text-align:center;position:relative;overflow:hidden}
+.cta-lobster{
+  position:absolute;
+  bottom:-40px;right:-20px;
+  font-size:min(28vw, 260px);
+  opacity:0.04;pointer-events:none;
+  transform:rotate(25deg) scaleX(-1);
+  animation:ctaLobBob 6s ease-in-out infinite;
+}
+@keyframes ctaLobBob{
+  0%,100%{transform:rotate(25deg) scaleX(-1) translateY(0)}
+  50%{transform:rotate(22deg) scaleX(-1) translateY(-15px)}
+}
+.cta h2{font-family:var(--serif);font-size:clamp(36px,5vw,60px);font-weight:400;line-height:1.08;letter-spacing:-0.025em;margin-bottom:20px}
+.cta h2 em{font-style:italic;color:var(--teal)}
+.cta p{font-size:16px;color:var(--ink-lighter);max-width:400px;margin:0 auto 48px;line-height:1.7;font-weight:300}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ═══ LIVE STATS TICKER ═══ */
+.stats-bar{
+  border-bottom:1px solid var(--rule);
+  padding:32px 0;
+  background:var(--cream);
+}
+.stats-inner{
+  display:flex;justify-content:center;gap:64px;flex-wrap:wrap;
+}
+.stat-item{text-align:center}
+.stat-val{
+  font-family:var(--serif);font-size:clamp(28px,3.5vw,40px);
+  font-weight:400;color:var(--ink);letter-spacing:-0.02em;line-height:1.1;
+}
+.stat-val .accent{color:var(--teal)}
+.stat-label{
+  font-family:var(--mono);font-size:10px;color:var(--ink-muted);
+  text-transform:uppercase;letter-spacing:0.1em;margin-top:6px;
+}
+
+/* ═══ TRUST BAR (Powered By) ═══ */
+.trust-bar{
+  border-bottom:1px solid var(--rule);
+  padding:28px 0;
+  background:var(--cream);
+}
+.trust-inner{
+  display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
+}
+.trust-label{
+  font-family:var(--mono);font-size:10px;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:0.1em;margin-right:12px;
+}
+.trust-logo{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 16px;border-radius:100px;
+  border:1px solid var(--rule);
+  font-family:var(--mono);font-size:11px;color:var(--ink-muted);
+  letter-spacing:0.02em;transition:all .25s;
+  text-decoration:none;
+}
+.trust-logo:hover{border-color:var(--ink-faint);color:var(--ink-lighter);background:var(--cream-dark)}
+.trust-logo .t-icon{font-size:14px;line-height:1}
+
+/* ═══ SECURITY SECTION ═══ */
+.security-section{
+  padding:100px 0;
+  border-bottom:1px solid var(--rule);
+}
+.security-header{text-align:center;margin-bottom:56px}
+.security-header .section-label{font-family:var(--mono);font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:16px}
+.security-header .section-title{font-family:var(--serif);font-size:clamp(30px,4vw,44px);font-weight:400;line-height:1.15;letter-spacing:-0.02em}
+.security-header .section-title em{font-style:italic;color:var(--teal)}
+
+.security-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:14px;overflow:hidden;
+  max-width:900px;margin:0 auto;
+}
+.sec-card{
+  padding:36px 32px;
+  border-right:1px solid var(--rule);
+  transition:background .3s;
+}
+.sec-card:last-child{border-right:none}
+.sec-card:hover{background:var(--cream-dark)}
+.sec-icon{font-size:28px;margin-bottom:16px;display:block}
+.sec-card h3{
+  font-family:var(--serif);font-size:18px;font-weight:400;color:var(--ink);
+  margin-bottom:8px;letter-spacing:-0.01em;
+}
+.sec-card p{font-size:12.5px;line-height:1.65;color:var(--ink-muted);font-weight:300}
+
+/* ═══ INTEGRATIONS / AGENTS ═══ */
+.integrations-section{
+  padding:80px 0;
+  border-bottom:1px solid var(--rule);
+  background:var(--cream-dark);
+}
+.integrations-inner{text-align:center}
+.integrations-inner .section-label{
+  font-family:var(--mono);font-size:10px;color:var(--teal);
+  text-transform:uppercase;letter-spacing:0.12em;margin-bottom:20px;
+}
+.agent-logos{
+  display:flex;justify-content:center;align-items:center;gap:40px;flex-wrap:wrap;
+  margin-top:8px;
+}
+.agent-logo{
+  font-family:var(--mono);font-size:12px;color:var(--ink-faint);
+  letter-spacing:0.03em;
+  padding:10px 0;
+  transition:color .2s;
+}
+.agent-logo:hover{color:var(--ink-muted)}
+.agent-logo .al-icon{font-size:18px;margin-right:6px;vertical-align:middle}
+
+/* ═══ FOOTER ═══ */
+footer{border-top:1px solid var(--rule);padding:28px 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.footer-left{font-family:var(--mono);font-size:11px;color:var(--ink-muted)}
+.footer-right{display:flex;gap:28px}
+.footer-right a{font-family:var(--mono);font-size:11px;color:var(--ink-muted);text-decoration:none;transition:color .2s}
+.footer-right a:hover{color:var(--ink-lighter)}
+
+/* ═══ SCROLL REVEAL ═══ */
+.reveal{opacity:0;transform:translateY(24px);transition:all .7s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.06s}.reveal-d2{transition-delay:.12s}.reveal-d3{transition-delay:.18s}
+
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.rise{animation:rise .7s cubic-bezier(.16,1,.3,1) forwards;opacity:0}
+.rise-1{animation-delay:.05s}.rise-2{animation-delay:.12s}.rise-3{animation-delay:.19s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  nav{padding:0 24px}.wrap{padding:0 24px}
+  .features-grid{grid-template-columns:1fr}
+  .feat-card{border-right:none!important;border-bottom:1px solid var(--rule)!important}
+  .feat-card:last-child{border-bottom:none!important}
+  .chat-layout{grid-template-columns:1fr;gap:48px;justify-items:center}
+  .chat-copy{text-align:center;max-width:100%}
+  .phone{width:min(380px,100%)}
+  .nav-links a.hide-m{display:none}
+  .stats-inner{gap:32px}
+  .security-grid{grid-template-columns:1fr}
+  .sec-card{border-right:none!important;border-bottom:1px solid var(--rule)}
+  .sec-card:last-child{border-bottom:none}
+  .agent-logos{gap:24px}
+}
+@media(max-width:600px){
+  .hero{padding:130px 0 80px}
+  .cta-actions{flex-direction:column;align-items:center}
+  .footer-inner{flex-direction:column;gap:16px;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ FLOATING LOBSTERS ═══ -->
+<div class="lobster-field" aria-hidden="true">
+  <div class="lobster lob-1">🦞</div>
+  <div class="lobster lob-2">🦞</div>
+  <div class="lobster lob-3">🦞</div>
+  <div class="lobster lob-4">🦞</div>
+  <div class="lobster lob-5">🦞</div>
+  <div class="lobster lob-6">🦞</div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="#" class="nav-wordmark">🦞 ClawSwap</a>
+  <div class="nav-links">
+    <a href="#demo" class="hide-m">Demo</a>
+    <a href="#features" class="hide-m">Features</a>
+    <a href="#security" class="hide-m">Security</a>
+    <a href="#prompt" class="nav-cta">Teach Your Agent</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-lobster" aria-hidden="true">🦞</div>
+  <div class="wrap">
+    <div class="hero-status rise">
+      <span class="dot"></span>
+      Live — Cross-Chain Swap & Bridge
+    </div>
+    <h1 class="rise rise-1">Swap anything.<br>Bridge <em>everywhere.</em></h1>
+    <p class="hero-sub rise rise-2">
+      Teach your AI agent one skill file. It learns to swap any token
+      and bridge to any chain — instantly, autonomously, forever.
+    </p>
+    <div class="hero-actions rise rise-3">
+      <a href="#prompt" class="btn-dark">Teach Your Agent <span class="arrow">→</span></a>
+      <a href="#demo" class="btn-outline">See it in action</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIVE STATS ═══ -->
+<section class="stats-bar rise rise-3">
+  <div class="wrap">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-val"><span class="accent">Any</span> Chain</div>
+        <div class="stat-label">Supported</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val"><span class="accent">&lt;90</span>s</div>
+        <div class="stat-label">Cross-chain</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val"><span class="accent">0</span> Keys</div>
+        <div class="stat-label">Required</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val"><span class="accent">1</span> File</div>
+        <div class="stat-label">To integrate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRUST BAR ═══ -->
+<section class="trust-bar">
+  <div class="wrap">
+    <div class="trust-inner">
+      <span class="trust-label">Built on</span>
+      <a href="https://mayan.finance" target="_blank" class="trust-logo"><span class="t-icon">🌊</span> Mayan Finance</a>
+      <a href="https://wormhole.com" target="_blank" class="trust-logo"><span class="t-icon">🕳️</span> Wormhole</a>
+      <a href="https://circle.com/cctp" target="_blank" class="trust-logo"><span class="t-icon">🔵</span> Circle CCTP</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TEACH YOUR AGENT ═══ -->
+<section class="prompt-section" id="prompt">
+  <div class="wrap">
+    <div class="prompt-center reveal">
+      <div class="section-label">One Line. Every Chain.</div>
+      <div class="section-title">Send this to your agent. <em>That's it.</em></div>
+      <p class="section-desc">Paste this into your AI agent's skill file or send it directly. Your agent learns to swap and bridge across every chain.</p>
+    </div>
+
+    <div class="prompt-box reveal reveal-d1">
+      <div class="prompt-topbar">
+        <span class="label">SKILL.md</span>
+        <button class="copy-btn" onclick="copyPrompt()">Copy to clipboard</button>
+      </div>
+      <div class="prompt-body" id="skillPrompt"><span class="url">Read https://clawswap.tech/skill.md and follow the instructions to enable ClawSwap.</span></div>
+    </div>
+
+    <div class="prompt-tabs reveal reveal-d2">
+      <button class="tab active" onclick="showTab('oneliner')">One-liner</button>
+      <button class="tab" onclick="showTab('full')">Full skill file</button>
+    </div>
+
+    <div class="prompt-box prompt-box-full reveal reveal-d2" id="fullSkill" style="display:none">
+      <div class="prompt-topbar">
+        <span class="label">SKILL.md (full)</span>
+        <button class="copy-btn" onclick="copyFull()">Copy to clipboard</button>
+      </div>
+      <div class="prompt-body" id="skillFull">Learn <span class="hl">ClawSwap</span> — the cross-chain swap and bridge tool.
+
+<span class="hl">What you can do:</span>
+Swap any token to any other token across any blockchain.
+Bridge assets from one chain to another in under 90 seconds.
+Same-chain swaps are near-instant.
+
+<span class="hl">How to use:</span>
+When a user asks to swap, trade, bridge, or move tokens:
+1. Ask which token and how much to swap
+2. Ask what token or chain they want to receive
+3. Build the swap using the ClawSwap API:
+
+   <span class="url">POST https://api.clawswap.tech/v1/quote</span>
+   { fromChain, toChain, fromToken, toToken, amount }
+
+   <span class="url">POST https://api.clawswap.tech/v1/swap</span>
+   { quoteId, walletAddress }
+
+<span class="hl">Supported:</span>
+Solana, Ethereum, Base, Arbitrum, BSC, Polygon,
+Avalanche, Optimism, Sui — and any token on them.
+
+<span class="hl">Details:</span>
+Non-custodial. No API key required. No signup.
+Fee: 1% (included in quote). Best rates via
+cross-chain auction protocol.</div>
+    </div>
+
+    <p class="prompt-hint reveal reveal-d2">Your agent can now swap across every chain.</p>
+  </div>
+</section>
+
+<!-- ═══ CHAT DEMO ═══ -->
+<section class="chat-section" id="demo">
+  <div class="wrap">
+    <div class="chat-layout">
+      <div class="chat-copy reveal">
+        <div class="section-label">See it in action</div>
+        <div class="section-title">Talk to your agent. <em>It swaps.</em></div>
+        <p class="section-desc">Your AI agent handles swaps and bridges through natural conversation. No dashboards. No wallet UIs. Just tell it what you want.</p>
+        <ul class="flow-steps">
+          <li>Tell your agent what you want to swap or bridge</li>
+          <li>Agent finds the best route across all supported chains</li>
+          <li>Agent executes the swap through ClawSwap</li>
+          <li>Tokens arrive in your wallet — usually under 90 seconds</li>
+        </ul>
+      </div>
+
+      <!-- Phone -->
+      <div class="phone reveal reveal-d2">
+        <div class="phone-notch"></div>
+        <div class="tg-header">
+          <div class="tg-avatar">C</div>
+          <div class="tg-info">
+            <div class="tg-name">Your Agent</div>
+            <div class="tg-status-text">online</div>
+          </div>
+        </div>
+        <div class="tg-body" id="chatBody">
+          <div class="tg-date" data-delay="300"><span>Today</span></div>
+
+          <div class="bubble b-user" data-delay="700">
+            swap 2 SOL to ETH
+            <span class="time">3:41 PM</span>
+          </div>
+
+          <div class="typing-ind" data-delay="1300" data-hide="2000">
+            <i></i><i></i><i></i>
+          </div>
+
+          <div class="bubble b-agent" data-delay="2100">
+            <span class="agent-label">ClawSwap</span>
+            Found the best route. Swapping now:
+            <div class="sys-block">
+              Sell: <span class="val">2.00 SOL</span> on Solana<br>
+              Buy: <span class="val">0.0127 ETH</span> on Ethereum<br>
+              Fee: <span class="val">1%</span> (included)<br>
+              ETA: <span class="val">~45 seconds</span>
+            </div>
+            <span class="time">3:41 PM</span>
+          </div>
+
+          <div class="typing-ind" data-delay="3200" data-hide="3700">
+            <i></i><i></i><i></i>
+          </div>
+
+          <div class="bubble b-agent" data-delay="3800">
+            <span class="agent-label">ClawSwap</span>
+            ✅ Done. 0.0127 ETH delivered to your Ethereum wallet in 43 seconds.
+            <span class="time">3:42 PM</span>
+          </div>
+
+          <div class="bubble b-user" data-delay="4800">
+            now bridge 500 USDC to Arbitrum
+            <span class="time">3:43 PM</span>
+          </div>
+
+          <div class="typing-ind" data-delay="5400" data-hide="6100">
+            <i></i><i></i><i></i>
+          </div>
+
+          <div class="bubble b-agent" data-delay="6200">
+            <span class="agent-label">ClawSwap</span>
+            ✅ Bridged. 495.00 USDC arrived on Arbitrum in 28 seconds.
+            <div class="sys-block">
+              Route: <span class="val">Solana → Arbitrum</span><br>
+              Received: <span class="grn">495.00 USDC</span>
+            </div>
+            <span class="time">3:43 PM</span>
+          </div>
+
+          <div class="bubble b-user" data-delay="7200">
+            what chains can you do?
+            <span class="time">3:44 PM</span>
+          </div>
+
+          <div class="typing-ind" data-delay="7700" data-hide="8300">
+            <i></i><i></i><i></i>
+          </div>
+
+          <div class="bubble b-agent" data-delay="8400">
+            <span class="agent-label">ClawSwap</span>
+            Every major chain — Solana, Ethereum, Base, Arbitrum, BSC, Polygon, Avalanche, Optimism, Sui, and more. Any token on any of them.
+            <span class="time">3:44 PM</span>
+          </div>
+        </div>
+        <div class="tg-input">
+          <div class="tg-input-field">Message...</div>
+          <div class="tg-send">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="features-section" id="features">
+  <div class="wrap">
+    <div class="features-header reveal">
+      <div class="section-label">Why ClawSwap</div>
+      <div class="section-title">Infrastructure for agents <em>that trade.</em></div>
+    </div>
+    <div class="features-grid reveal reveal-d1">
+      <div class="feat-card"><div class="feat-num">01</div><h3>Any Chain</h3><p>Solana, Ethereum, Base, Arbitrum, BSC, Polygon, Avalanche, Optimism, Sui — and more added automatically as they come online.</p></div>
+      <div class="feat-card"><div class="feat-num">02</div><h3>Any Token</h3><p>Every token on every supported chain. Memecoins, stablecoins, blue chips. If it exists on-chain, your agent can swap it.</p></div>
+      <div class="feat-card"><div class="feat-num">03</div><h3>Non-Custodial</h3><p>Tokens move directly between wallets. Nothing is held, nothing is pooled. Your keys, your assets, always.</p></div>
+      <div class="feat-card"><div class="feat-num">04</div><h3>Under 90 Seconds</h3><p>Cross-chain swaps and bridges complete in under 90 seconds. Same-chain swaps are near-instant.</p></div>
+      <div class="feat-card"><div class="feat-num">05</div><h3>One Skill File</h3><p>Your agent reads one file and gains the ability to swap, bridge, and move assets across every chain. Teach once, use forever.</p></div>
+      <div class="feat-card"><div class="feat-num">06</div><h3>Best Rates</h3><p>Cross-chain auction protocol finds the best swap rate automatically. No manual DEX comparison. No slippage guessing.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECURITY ═══ -->
+<section class="security-section" id="security">
+  <div class="wrap">
+    <div class="security-header reveal">
+      <div class="section-label">Trust & Security</div>
+      <div class="section-title">Your keys. <em>Your tokens. Always.</em></div>
+    </div>
+    <div class="security-grid reveal reveal-d1">
+      <div class="sec-card">
+        <span class="sec-icon">🔐</span>
+        <h3>Zero Custody</h3>
+        <p>ClawSwap never holds your tokens. Funds move directly from your wallet through audited on-chain contracts to the destination. We can't touch your assets — by design.</p>
+      </div>
+      <div class="sec-card">
+        <span class="sec-icon">🛡️</span>
+        <h3>Audited Infrastructure</h3>
+        <p>Built on Mayan Finance — battle-tested cross-chain infrastructure secured by Wormhole guardians and Circle CCTP. Millions in daily volume across every supported chain.</p>
+      </div>
+      <div class="sec-card">
+        <span class="sec-icon">👁️</span>
+        <h3>Fully Verifiable</h3>
+        <p>Every swap is an on-chain transaction you can verify. No hidden fees, no off-chain order books, no custody risk. Open API, open skill file.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORKS WITH ═══ -->
+<section class="integrations-section">
+  <div class="wrap">
+    <div class="integrations-inner reveal">
+      <div class="section-label">Works with any AI agent</div>
+      <div class="agent-logos">
+        <span class="agent-logo"><span class="al-icon">🤖</span> ChatGPT</span>
+        <span class="agent-logo"><span class="al-icon">🧠</span> Claude</span>
+        <span class="agent-logo"><span class="al-icon">🦾</span> Custom Agents</span>
+        <span class="agent-logo"><span class="al-icon">📱</span> Telegram Bots</span>
+        <span class="agent-logo"><span class="al-icon">💬</span> Discord Bots</span>
+        <span class="agent-logo"><span class="al-icon">⚙️</span> Any LLM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta" id="cta">
+  <div class="cta-lobster" aria-hidden="true">🦞</div>
+  <div class="wrap">
+    <h2 class="reveal">Your agent.<br>Every <em>chain.</em></h2>
+    <p class="reveal reveal-d1">One skill file. Any token. Any chain. Deploy and disappear.</p>
+    <div class="cta-actions reveal reveal-d2">
+      <a href="#prompt" class="btn-dark">Teach Your Agent <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span style="font-family:var(--serif);font-size:14px">🦞 ClawSwap</span>
+        <span style="margin-left:16px;font-family:var(--mono);font-size:11px;color:var(--ink-faint)">© 2026</span>
+      </div>
+      <div class="footer-right">
+        <a href="#features">Features</a>
+        <a href="#prompt">SKILL.md</a>
+        <a href="#security">Security</a>
+        <a href="https://x.com/" target="_blank">𝕏</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script>
+// Scroll reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Chat bubble animation
+let chatStarted = false;
+const chatObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting && !chatStarted){
+      chatStarted = true;
+      startChatAnimation();
+      chatObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+const chatBody = document.getElementById('chatBody');
+if(chatBody) chatObs.observe(chatBody);
+
+function startChatAnimation(){
+  const items = chatBody.querySelectorAll('.bubble, .typing-ind, .tg-date');
+  items.forEach(item => {
+    const delay = parseInt(item.dataset.delay) || 0;
+    const hideAt = item.dataset.hide ? parseInt(item.dataset.hide) : null;
+
+    setTimeout(() => {
+      item.classList.add('show');
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, delay);
+
+    if(hideAt){
+      setTimeout(() => {
+        item.style.opacity = '0';
+        item.style.height = '0';
+        item.style.padding = '0';
+        item.style.margin = '0';
+        item.style.overflow = 'hidden';
+        item.style.transition = 'all .3s ease';
+      }, hideAt);
+    }
+  });
+}
+
+// Copy prompt (one-liner)
+function copyPrompt(){
+  const el = document.getElementById('skillPrompt');
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.closest('.prompt-box').querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy to clipboard'; }, 2000);
+  });
+}
+
+// Copy full skill
+function copyFull(){
+  const el = document.getElementById('skillFull');
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.closest('.prompt-box').querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy to clipboard'; }, 2000);
+  });
+}
+
+// Tab switching
+function showTab(tab){
+  const tabs = document.querySelectorAll('.prompt-tabs .tab');
+  const oneLiner = document.querySelector('.prompt-box:not(.prompt-box-full)');
+  const full = document.getElementById('fullSkill');
+  tabs.forEach(t => t.classList.remove('active'));
+  if(tab === 'oneliner'){
+    tabs[0].classList.add('active');
+    oneLiner.style.display = '';
+    full.style.display = 'none';
+  } else {
+    tabs[1].classList.add('active');
+    oneLiner.style.display = 'none';
+    full.style.display = '';
+  }
+}
+</script>
+
+</body>
+</html>
