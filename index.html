@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ClawSwap — Any-Chain Swap & Bridge for AI Agents</title>
 <meta name="description" content="Teach your AI agent to swap any token and bridge any chain. One skill file. Every chain. Zero setup.">
+<meta name="keywords" content="AI agent, crypto swap, cross-chain bridge, blockchain API, autonomous trading, AI crypto, Solana, Ethereum, Base">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://clawswap.tech/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -683,7 +686,7 @@ footer{border-top:1px solid var(--rule);padding:28px 0}
         <span class="label">SKILL.md</span>
         <button class="copy-btn" onclick="copyPrompt()">Copy to clipboard</button>
       </div>
-      <div class="prompt-body" id="skillPrompt"><span class="url">Read https://clawswap.tech/skill.md and follow the instructions to enable ClawSwap.</span></div>
+      <div class="prompt-body" id="skillPrompt"><span class="url">Read https://clawswap-api.fly.dev/skill.md and follow the instructions to enable ClawSwap.</span></div>
     </div>
 
     <div class="prompt-tabs reveal reveal-d2">
@@ -709,10 +712,10 @@ When a user asks to swap, trade, bridge, or move tokens:
 2. Ask what token or chain they want to receive
 3. Build the swap using the ClawSwap API:
 
-   <span class="url">POST https://api.clawswap.tech/v1/quote</span>
+   <span class="url">POST https://clawswap-api.fly.dev/v1/quote</span>
    { fromChain, toChain, fromToken, toToken, amount }
 
-   <span class="url">POST https://api.clawswap.tech/v1/swap</span>
+   <span class="url">POST https://clawswap-api.fly.dev/v1/swap</span>
    { quoteId, walletAddress }
 
 <span class="hl">Supported:</span>
