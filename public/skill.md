@@ -98,7 +98,7 @@ Content-Type: application/json
   "toAmountMin": "41400000",
   "estimatedToAmount": "41800000",
   "priceImpact": 0.05,
-  "estimatedDuration": "60-90 seconds",
+  "estimatedDuration": "under 10 seconds",
   "fee": "1%",
   "expiresAt": "2026-02-04T23:20:00.000Z",
   "route": "solana → solana",
@@ -159,7 +159,7 @@ Returns the current status: `INPROGRESS`, `COMPLETED`, or `REFUNDED`.
 - **Fee**: 1% on swaps from Solana, 0.5% on swaps from other chains (included in quote).
 - **No API key required**: Open access for all agents.
 - **Rate limits**: 30 quotes/minute, 10 swaps/minute per IP address (fair usage policy).
-- **Speed**: Cross-chain swaps complete in 60-90 seconds. Same-chain swaps are near-instant.
+- **Speed**: Cross-chain swaps complete in under 10 seconds. Same-chain swaps are near-instant.
 - **Any token**: If it exists on a supported chain, you can swap it.
 
 ## Token Addresses
