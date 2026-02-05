@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentation - ClawSwap Cross-Chain Swap API for AI Agents</title>
+<meta name="description" content="Complete API documentation for ClawSwap - the cross-chain swap and bridge for AI agents. Learn how to integrate ClawSwap into your AI agent in 15 minutes.">
+<meta name="keywords" content="AI agent API, crypto swap documentation, cross-chain API docs, ClawSwap integration, autonomous trading API">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://clawswap.tech/docs">
+<style>
+:root{--cream:#FAF7F2;--ink:#1A1714;--teal:#0A7B6F;--mono:'Geist Mono',monospace;--sans:'Geist',sans-serif;--serif:'Instrument Serif',serif}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.7;padding:40px 20px;max-width:800px;margin:0 auto}
+h1{font-family:var(--serif);font-size:48px;margin-bottom:10px;letter-spacing:-0.02em}
+h2{font-family:var(--serif);font-size:32px;margin-top:48px;margin-bottom:16px;color:var(--teal)}
+h3{font-size:20px;margin-top:32px;margin-bottom:12px}
+code{font-family:var(--mono);background:rgba(26,23,20,0.04);padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:var(--ink);color:var(--cream);padding:20px;border-radius:8px;overflow-x:auto;font-family:var(--mono);font-size:13px}
+pre code{background:none;padding:0}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.back{display:inline-block;margin-bottom:24px;font-size:14px}
+ul,ol{margin-left:24px}
+li{margin:8px 0}
+</style>
+</head>
+<body>
+
+<a href="/" class="back">← Back to ClawSwap</a>
+
+<h1>ClawSwap Documentation</h1>
+<p>Complete API documentation for AI agents to integrate cross-chain swaps.</p>
+
+<h2>Quick Start</h2>
+<p>The fastest way to integrate ClawSwap is to teach your AI agent the skill file:</p>
+<pre><code>Read https://clawswap.tech/skill.md and follow the instructions to enable ClawSwap.</code></pre>
+
+<h2>API Endpoints</h2>
+
+<h3>POST /v1/quote</h3>
+<p>Get a swap quote for any token pair across any supported chains.</p>
+
+<p><strong>Request:</strong></p>
+<pre><code>POST https://clawswap-api.fly.dev/v1/quote
+Content-Type: application/json
+
+{
+  "fromChain": "solana",
+  "toChain": "ethereum",
+  "fromToken": "0x0000000000000000000000000000000000000000",
+  "toToken": "0x0000000000000000000000000000000000000000",
+  "amount": 2.0
+}</code></pre>
+
+<p><strong>Response:</strong></p>
+<pre><code>{
+  "quoteId": "abc123...",
+  "fromChain": "solana",
+  "toChain": "ethereum",
+  "fromAmount": "2.0",
+  "estimatedToAmount": "0.0127",
+  "toAmountMin": "0.0125",
+  "priceImpact": "0.12%",
+  "estimatedDuration": 45,
+  "fee": "1%",
+  "expiresAt": "2026-02-04T19:47:43Z"
+}</code></pre>
+
+<h3>POST /v1/swap</h3>
+<p>Execute a swap using a quote ID.</p>
+
+<p><strong>Request:</strong></p>
+<pre><code>POST https://clawswap-api.fly.dev/v1/swap
+Content-Type: application/json
+
+{
+  "quoteId": "abc123...",
+  "walletAddress": "YOUR_WALLET_ADDRESS"
+}</code></pre>
+
+<p><strong>Response:</strong></p>
+<pre><code>{
+  "message": "Quote ready for execution",
+  "swapId": "abc123...",
+  "quote": { ... },
+  "instructions": {
+    "step1": "Sign the transaction with your wallet",
+    "step2": "Broadcast the transaction to the blockchain"
+  },
+  "note": "ClawSwap does not execute swaps. Your agent must sign and broadcast."
+}</code></pre>
+
+<h3>GET /v1/swap/:id</h3>
+<p>Check the status of a swap.</p>
+
+<p><strong>Request:</strong></p>
+<pre><code>GET https://clawswap-api.fly.dev/v1/swap/swap_xyz...</code></pre>
+
+<p><strong>Response:</strong></p>
+<pre><code>{
+  "swapId": "swap_xyz...",
+  "status": "pending",
+  "timestamp": "2026-02-04T19:42:43Z",
+  "params": { "fromChain": "solana", "toChain": "ethereum", ... },
+  "note": "Track actual swap status on blockchain explorer"
+}</code></pre>
+
+<h2>Supported Blockchains</h2>
+<ul>
+  <li><strong>Solana</strong> - Fast and low-cost transactions</li>
+  <li><strong>Ethereum</strong> - Leading DeFi ecosystem</li>
+  <li><strong>Base</strong> - Coinbase's L2 network</li>
+  <li><strong>Arbitrum</strong> - Ethereum L2 scaling solution</li>
+  <li><strong>Optimism</strong> - Ethereum L2 optimistic rollup</li>
+  <li><strong>Polygon</strong> - Ethereum sidechain for faster transactions</li>
+  <li><strong>BSC</strong> - Binance Smart Chain</li>
+  <li><strong>Avalanche</strong> - High-throughput blockchain platform</li>
+  <li><strong>Sui</strong> - Next-generation blockchain</li>
+</ul>
+
+<h2>Native Token Addresses</h2>
+<p>Use the zero address for native tokens (SOL, ETH, BNB, MATIC, AVAX):</p>
+<pre><code>"fromToken": "0x0000000000000000000000000000000000000000"</code></pre>
+
+<p>This ensures you receive native tokens, not wrapped versions (WSOL, WETH, etc).</p>
+
+<h2>Error Handling</h2>
+<p>All errors return a JSON response with a descriptive message:</p>
+<pre><code>{
+  "error": "Invalid chain",
+  "message": "Supported chains: solana, ethereum, base, arbitrum, optimism, polygon, bsc, avalanche, sui"
+}</code></pre>
+
+<h2>Rate Limits</h2>
+<p>ClawSwap enforces rate limits per IP address to ensure fair usage:</p>
+<ul>
+  <li><strong>Quote endpoint:</strong> 30 requests per minute</li>
+  <li><strong>Swap endpoint:</strong> 10 requests per minute</li>
+</ul>
+<p>Rate limit headers are included in responses. If you exceed the limit, you'll receive a 429 error with a retry-after time.</p>
+
+<h2>Fees</h2>
+<ul>
+  <li><strong>Solana swaps:</strong> 1% (100 bps)</li>
+  <li><strong>EVM swaps:</strong> 0.5% (50 bps)</li>
+  <li>Fees are included in the quote</li>
+</ul>
+
+<h2>Security</h2>
+<ul>
+  <li><strong>Non-custodial:</strong> ClawSwap never holds your tokens</li>
+  <li><strong>On-chain:</strong> All swaps are verifiable blockchain transactions</li>
+  <li><strong>Audited:</strong> Built on Mayan Finance, secured by Wormhole and Circle CCTP</li>
+</ul>
+
+<h2>Support</h2>
+<p>Need help? Check the <a href="/faq">FAQ</a> or review the full <a href="/skill.md">skill file</a>.</p>
+
+</body>
+</html>

@@ -16,11 +16,11 @@ ClawSwap is a cross-chain swap and bridge API **for AI agents with their own wal
 - Chat-based agents without wallet access
 - Manual user-controlled swaps
 
-**If your agent doesn't have wallet capabilities, ClawSwap will NOT work.** You need autonomous wallet control to use this service. See the [Wallet Setup Guide](https://clawswap-api.fly.dev/wallet-setup.md) to generate wallets for your agent.
+**If your agent doesn't have wallet capabilities, ClawSwap will NOT work.** You need autonomous wallet control to use this service. See the [Wallet Setup Guide](https://clawswap.tech/wallet-setup.md) to generate wallets for your agent.
 
 ## Agent Wallet Requirements
 
-**Don't have a wallet yet?** → Read the [Wallet Setup Guide](https://clawswap-api.fly.dev/wallet-setup.md)
+**Don't have a wallet yet?** → Read the [Wallet Setup Guide](https://clawswap.tech/wallet-setup.md)
 
 Before using ClawSwap, your AI agent needs:
 
@@ -32,7 +32,7 @@ Before using ClawSwap, your AI agent needs:
    **Quick Setup:**
    ```bash
    # Download wallet generator
-   curl -O https://clawswap-api.fly.dev/generate-agent-wallet.js
+   curl -O https://clawswap.tech/generate-agent-wallet.js
    
    # Run it
    node generate-agent-wallet.js
@@ -53,7 +53,7 @@ Before using ClawSwap, your AI agent needs:
    - Enough tokens to swap
    - Gas fees for transaction
 
-**Full wallet setup instructions:** https://clawswap-api.fly.dev/wallet-setup.md
+**Full wallet setup instructions:** https://clawswap.tech/wallet-setup.md
 
 ## Supported Chains
 
@@ -149,6 +149,7 @@ Returns the current status: `INPROGRESS`, `COMPLETED`, or `REFUNDED`.
 - **Non-custodial**: Tokens move directly between user wallets. ClawSwap never holds funds.
 - **Fee**: 1% on swaps from Solana, 0.5% on swaps from other chains (included in quote).
 - **No API key required**: Open access for all agents.
+- **Rate limits**: 30 quotes/minute, 10 swaps/minute per IP address (fair usage policy).
 - **Speed**: Cross-chain swaps complete in 60-90 seconds. Same-chain swaps are near-instant.
 - **Any token**: If it exists on a supported chain, you can swap it.
 
@@ -352,5 +353,5 @@ If a swap fails, check the status endpoint and inform the user of refund details
 ---
 
 **Built on:** Mayan Finance, Wormhole, Circle CCTP
-**Website:** https://clawswap.com
-**Support:** Check https://clawswap.com for updates
+**Website:** https://clawswap.tech
+**Support:** Check https://clawswap.tech for updates

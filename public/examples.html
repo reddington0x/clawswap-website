@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examples - ClawSwap Integration Examples for AI Agents</title>
+<meta name="description" content="Real-world examples of AI agents using ClawSwap for cross-chain swaps. Learn how to swap SOL to ETH, bridge USDC, and integrate ClawSwap into your agent.">
+<meta name="keywords" content="AI agent examples, crypto swap tutorial, cross-chain swap code, ClawSwap integration examples, autonomous trading code">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://clawswap.tech/examples">
+<style>
+:root{--cream:#FAF7F2;--ink:#1A1714;--teal:#0A7B6F;--mono:'Geist Mono',monospace;--sans:'Geist',sans-serif;--serif:'Instrument Serif',serif}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.7;padding:40px 20px;max-width:900px;margin:0 auto}
+h1{font-family:var(--serif);font-size:48px;margin-bottom:10px;letter-spacing:-0.02em}
+h2{font-family:var(--serif);font-size:32px;margin-top:48px;margin-bottom:16px;color:var(--teal)}
+h3{font-size:20px;margin-top:32px;margin-bottom:12px}
+code{font-family:var(--mono);background:rgba(26,23,20,0.04);padding:2px 6px;border-radius:4px;font-size:13px}
+pre{background:var(--ink);color:var(--cream);padding:20px;border-radius:8px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6}
+pre code{background:none;padding:0}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.back{display:inline-block;margin-bottom:24px;font-size:14px}
+.example{margin-top:48px;padding:24px;background:rgba(10,123,111,0.03);border-radius:12px;border:1px solid rgba(10,123,111,0.1)}
+.example-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<a href="/" class="back">← Back to ClawSwap</a>
+
+<h1>ClawSwap Examples</h1>
+<p>Real-world integration examples for AI agents.</p>
+
+<div class="example">
+<div class="example-label">Example 1</div>
+<h2>Swap SOL to ETH (Cross-Chain)</h2>
+<p>A user asks: <em>"Swap 2 SOL to ETH"</em></p>
+
+<h3>Step 1: Get a quote</h3>
+<pre><code>POST https://clawswap-api.fly.dev/v1/quote
+Content-Type: application/json
+
+{
+  "fromChain": "solana",
+  "toChain": "ethereum",
+  "fromToken": "0x0000000000000000000000000000000000000000",
+  "toToken": "0x0000000000000000000000000000000000000000",
+  "amount": 2.0
+}
+
+// Response:
+{
+  "quoteId": "quote_abc123",
+  "fromAmount": "2.0 SOL",
+  "toAmount": "0.0127 ETH",
+  "estimatedTime": "45 seconds",
+  "fee": "1%",
+  "route": "Solana → Wormhole → Ethereum"
+}</code></pre>
+
+<h3>Step 2: Execute the swap</h3>
+<pre><code>POST https://clawswap-api.fly.dev/v1/swap
+Content-Type: application/json
+
+{
+  "quoteId": "quote_abc123",
+  "walletAddress": "YOUR_ETHEREUM_ADDRESS"
+}
+
+// Response:
+{
+  "swapId": "swap_xyz789",
+  "status": "pending",
+  "fromTx": "5Pb1dmof...",
+  "estimatedCompletion": "2026-02-04T19:42:00Z"
+}</code></pre>
+
+<h3>Step 3: Check status (optional)</h3>
+<pre><code>GET https://clawswap-api.fly.dev/v1/swap/swap_xyz789
+
+// Response:
+{
+  "swapId": "swap_xyz789",
+  "status": "completed",
+  "fromTx": "5Pb1dmof...",
+  "toTx": "0x3f2a1b...",
+  "completedAt": "2026-02-04T19:42:43Z",
+  "actualTime": "43 seconds"
+}</code></pre>
+
+<p><strong>Result:</strong> User receives 0.0127 ETH on Ethereum in 43 seconds.</p>
+</div>
+
+<div class="example">
+<div class="example-label">Example 2</div>
+<h2>Bridge USDC from Solana to Base</h2>
+<p>A user asks: <em>"Bridge 500 USDC to Base"</em></p>
+
+<h3>Get quote and execute</h3>
+<pre><code>// Step 1: Quote
+POST https://clawswap-api.fly.dev/v1/quote
+{
+  "fromChain": "solana",
+  "toChain": "base",
+  "fromToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",  // USDC on Solana
+  "toToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",     // USDC on Base
+  "amount": 500
+}
+
+// Step 2: Execute swap
+POST https://clawswap-api.fly.dev/v1/swap
+{
+  "quoteId": "quote_xyz...",
+  "walletAddress": "YOUR_BASE_ADDRESS"
+}</code></pre>
+
+<p><strong>Result:</strong> User receives ~495 USDC on Base in under 60 seconds.</p>
+</div>
+
+<div class="example">
+<div class="example-label">Example 3</div>
+<h2>Same-Chain Swap (SOL to USDC on Solana)</h2>
+<p>A user asks: <em>"Swap 10 SOL to USDC"</em></p>
+
+<pre><code>POST https://clawswap-api.fly.dev/v1/quote
+{
+  "fromChain": "solana",
+  "toChain": "solana",
+  "fromToken": "0x0000000000000000000000000000000000000000",
+  "toToken": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  "amount": 10
+}
+
+// Quote response:
+{
+  "quoteId": "quote_fast123",
+  "fromAmount": "10.0 SOL",
+  "toAmount": "2,450 USDC",
+  "estimatedTime": "5 seconds",
+  "fee": "1%"
+}</code></pre>
+
+<p><strong>Result:</strong> Near-instant swap (5-10 seconds) on Solana.</p>
+</div>
+
+<div class="example">
+<div class="example-label">Example 4</div>
+<h2>Multi-Step Agent Workflow</h2>
+<p>An agent managing a DeFi portfolio:</p>
+
+<h3>Scenario:</h3>
+<ol>
+  <li>Agent monitors SOL price</li>
+  <li>When SOL hits $200, swap 50% to USDC</li>
+  <li>Bridge USDC to Base</li>
+  <li>Deploy USDC in Base lending protocol</li>
+</ol>
+
+<h3>Agent Logic:</h3>
+<pre><code>// Pseudo-code for agent
+if (solPrice >= 200) {
+  // Step 1: Swap SOL to USDC on Solana
+  const quote1 = await getQuote({
+    fromChain: "solana",
+    toChain: "solana",
+    fromToken: "0x0000000000000000000000000000000000000000",
+    toToken: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    amount: balance * 0.5
+  });
+  
+  await executeSwap(quote1.quoteId, agentWallet);
+  
+  // Step 2: Bridge USDC to Base
+  const quote2 = await getQuote({
+    fromChain: "solana",
+    toChain: "base",
+    fromToken: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    toToken: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    amount: usdcBalance
+  });
+  
+  await executeSwap(quote2.quoteId, agentWallet);
+  
+  // Step 3: Deploy on Base (agent handles this)
+}</code></pre>
+</div>
+
+<div class="example">
+<div class="example-label">Example 5</div>
+<h2>Error Handling</h2>
+<p>How to handle common errors:</p>
+
+<pre><code>try {
+  const quote = await fetch('https://clawswap-api.fly.dev/v1/quote', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fromChain: "solana",
+      toChain: "ethereum",
+      fromToken: "0x0000000000000000000000000000000000000000",
+      toToken: "0x0000000000000000000000000000000000000000",
+      amount: 2.0
+    })
+  });
+  
+  const data = await quote.json();
+  
+  if (data.error) {
+    console.log(`Error: ${data.message}`);
+    // Handle error (invalid chain, insufficient liquidity, etc.)
+  } else {
+    // Proceed with swap
+    console.log(`Quote: ${data.fromAmount} → ${data.toAmount}`);
+  }
+  
+} catch (err) {
+  console.log('Network error:', err);
+}</code></pre>
+</div>
+
+<h2 style="margin-top:64px">Common Use Cases</h2>
+<ul>
+  <li><strong>Portfolio rebalancing:</strong> Agent swaps between assets based on market conditions</li>
+  <li><strong>Cross-chain arbitrage:</strong> Agent exploits price differences across chains</li>
+  <li><strong>Automated DCA:</strong> Agent dollar-cost averages into positions over time</li>
+  <li><strong>Yield optimization:</strong> Agent moves funds to highest-yield protocols across chains</li>
+  <li><strong>Multi-chain treasury:</strong> Agent manages DAO treasury across multiple blockchains</li>
+  <li><strong>On-ramp automation:</strong> Agent converts fiat → stables → desired tokens</li>
+</ul>
+
+<h2>Need More Help?</h2>
+<p>Check the <a href="/docs">full documentation</a> or review the <a href="/skill.md">skill file</a>.</p>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ - ClawSwap Cross-Chain Swap for AI Agents</title>
+<meta name="description" content="Frequently asked questions about ClawSwap - the cross-chain swap and bridge for AI agents. Learn how to swap tokens, bridge assets, and integrate ClawSwap.">
+<meta name="keywords" content="AI agent FAQ, crypto swap questions, cross-chain bridge FAQ, ClawSwap help, autonomous trading questions">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://clawswap.tech/faq">
+<style>
+:root{--cream:#FAF7F2;--ink:#1A1714;--teal:#0A7B6F;--mono:'Geist Mono',monospace;--sans:'Geist',sans-serif;--serif:'Instrument Serif',serif}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.7;padding:40px 20px;max-width:800px;margin:0 auto}
+h1{font-family:var(--serif);font-size:48px;margin-bottom:10px;letter-spacing:-0.02em}
+h2{font-family:var(--serif);font-size:24px;margin-top:32px;margin-bottom:12px;color:var(--teal)}
+code{font-family:var(--mono);background:rgba(26,23,20,0.04);padding:2px 6px;border-radius:4px;font-size:13px}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.back{display:inline-block;margin-bottom:24px;font-size:14px}
+.category{margin-top:48px;padding-top:24px;border-top:1px solid rgba(26,23,20,0.08)}
+.category-title{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<a href="/" class="back">← Back to ClawSwap</a>
+
+<h1>Frequently Asked Questions</h1>
+<p>Everything you need to know about ClawSwap for AI agents.</p>
+
+<div class="category">
+<div class="category-title">Getting Started</div>
+
+<h2>How do I integrate ClawSwap into my AI agent?</h2>
+<p>Send this to your agent: <code>Read https://clawswap.tech/skill.md and follow the instructions to enable ClawSwap.</code></p>
+<p>Your agent will learn how to swap and bridge tokens across all supported chains. Integration takes about 15 minutes.</p>
+
+<h2>Does my agent need a wallet?</h2>
+<p>Yes. ClawSwap is designed for AI agents with wallet capabilities (Solana and EVM wallets). If your agent doesn't have a wallet, you'll need to set one up first.</p>
+
+<h2>Do I need an API key?</h2>
+<p>No. ClawSwap is completely permissionless. No signup, no API key, no KYC.</p>
+
+</div>
+
+<div class="category">
+<div class="category-title">Swaps & Bridges</div>
+
+<h2>What blockchains are supported?</h2>
+<p>ClawSwap supports 9+ major blockchains:</p>
+<ul>
+  <li>Solana</li>
+  <li>Ethereum</li>
+  <li>Base</li>
+  <li>Arbitrum</li>
+  <li>Optimism</li>
+  <li>Polygon</li>
+  <li>BSC (Binance Smart Chain)</li>
+  <li>Avalanche</li>
+  <li>Sui</li>
+</ul>
+
+<h2>How long do swaps take?</h2>
+<p><strong>Same-chain swaps:</strong> Near-instant (2-10 seconds)<br>
+<strong>Cross-chain swaps:</strong> Under 90 seconds</p>
+<p>Most cross-chain swaps complete in 30-60 seconds.</p>
+
+<h2>What's the fee?</h2>
+<ul>
+  <li><strong>Solana swaps:</strong> 1% (100 bps)</li>
+  <li><strong>EVM swaps:</strong> 0.5% (50 bps)</li>
+</ul>
+<p>Fees are included in the quote. No hidden fees, no gas surprises.</p>
+
+<h2>Why am I getting wrapped tokens (WSOL, WETH)?</h2>
+<p>Use the zero address for native tokens:</p>
+<p><code>"fromToken": "0x0000000000000000000000000000000000000000"</code></p>
+<p>This ensures you receive SOL, ETH, BNB, etc. instead of wrapped versions.</p>
+
+</div>
+
+<div class="category">
+<div class="category-title">Security & Trust</div>
+
+<h2>Is ClawSwap custodial?</h2>
+<p>No. ClawSwap is completely non-custodial. Your tokens move directly from your wallet through on-chain smart contracts to the destination. ClawSwap never holds your funds.</p>
+
+<h2>Who built ClawSwap?</h2>
+<p>ClawSwap is built on Mayan Finance - battle-tested cross-chain infrastructure secured by Wormhole guardians and Circle CCTP. Millions in daily volume.</p>
+
+<h2>Can I verify my swaps on-chain?</h2>
+<p>Yes. Every swap is a blockchain transaction with a transaction hash (txHash). You can verify it on any block explorer.</p>
+
+<h2>What if a swap fails?</h2>
+<p>If a swap fails, your tokens are automatically refunded to your wallet. No funds are lost.</p>
+
+</div>
+
+<div class="category">
+<div class="category-title">Integration & Technical</div>
+
+<h2>Can I use ClawSwap with any AI model?</h2>
+<p>Yes. ClawSwap works with ChatGPT, Claude, custom agents, Telegram bots, Discord bots, and any LLM that can make HTTP requests.</p>
+
+<h2>Are there rate limits?</h2>
+<p>No. ClawSwap is designed for high-frequency agent trading. Swap as often as you need.</p>
+
+<h2>Does ClawSwap support token launches?</h2>
+<p>Yes! Check out <a href="https://clawsend.fun">ClawSend</a> - our companion product for launching tokens on Solana in 1 transaction.</p>
+
+<h2>Can I test ClawSwap without real funds?</h2>
+<p>Yes. Start with a small amount (0.01 SOL) to test. All swaps are on mainnet, so use real but small amounts to verify functionality.</p>
+
+</div>
+
+<div class="category">
+<div class="category-title">Troubleshooting</div>
+
+<h2>My swap is taking longer than 90 seconds. What's wrong?</h2>
+<p>Cross-chain swaps can occasionally take 2-3 minutes during network congestion. Check the swap status using <code>GET /v1/swap/:id</code>.</p>
+
+<h2>I got an error: "Invalid chain". What does this mean?</h2>
+<p>Make sure you're using lowercase chain names: <code>solana</code>, <code>ethereum</code>, <code>base</code>, <code>arbitrum</code>, <code>optimism</code>, <code>polygon</code>, <code>bsc</code>, <code>avalanche</code>, <code>sui</code>.</p>
+
+<h2>How do I swap native tokens (SOL, ETH, BNB)?</h2>
+<p>Use the zero address:</p>
+<p><code>"fromToken": "0x0000000000000000000000000000000000000000"</code></p>
+<p>This works for all native tokens on all chains.</p>
+
+<h2>Can I cancel a swap?</h2>
+<p>No. Once a swap is submitted to the blockchain, it cannot be cancelled. Make sure your quote looks correct before executing.</p>
+
+</div>
+
+<h2 style="margin-top:64px">Still have questions?</h2>
+<p>Check the <a href="/docs">full documentation</a> or review the <a href="/skill.md">skill file</a>.</p>
+
+</body>
+</html>
